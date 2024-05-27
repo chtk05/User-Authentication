@@ -4,9 +4,8 @@ const { hashPassword, comparePassword } = require("../utilities/auth");
 
 const registerUser = async (req, res) => {
   try {
-    const { firstName, lastName, email, password, quote } = req.body;
-    if (!firstName) return res.json({ error: "First Name is required" });
-    if (!lastName) return res.json({ error: "Last Name is required" });
+    const { name, email, password, quote } = req.body;
+    if (!name) return res.json({ error: "Name is required" });
     if (!password || password.length < 6)
       return res.json({
         error: "Password is required and should be atleast 6 character",
@@ -15,8 +14,7 @@ const registerUser = async (req, res) => {
     if (existEmail) return res.json({ error: "This email already registred" });
     const hashedPassword = await hashPassword(password);
     const user = await User.create({
-      firstName,
-      lastName,
+      name,
       email,
       password: hashedPassword,
       quote,
@@ -30,9 +28,11 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await User.findOne({ email });
+    console.log(req.body);
+    const user = await User.findOne({ email: email });
+    console.log(`user`, user);
     if (!user) {
-      return res.json({
+      return res.status(401).json({
         error: "No user found",
       });
     }
@@ -50,25 +50,17 @@ const loginUser = async (req, res) => {
       );
     }
     if (!matchPassword) {
-      return res.json({
+      return res.status(401).json({
         error: "Password do not matched!",
       });
     }
   } catch (error) {
     console.log(error);
+    res.status(500).json({ error: "An unexpected error occurred" });
   }
 };
 
 const getProfile = (req, res) => {
-  //   const { token } = req.cookies;
-  //   if (token) {
-  //     jwt.verify(token, process.env.JWT_SECRET, {}, (err, user) => {
-  //       if (err) throw err;
-  //       return res.json(user);
-  //     });
-  //   } else {
-  //     return res.json(null).end();
-  //   }
   if (!req.user) {
     return res.json({ error: "User not found" });
   }
