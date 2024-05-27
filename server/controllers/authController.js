@@ -60,15 +60,22 @@ const loginUser = async (req, res) => {
 };
 
 const getProfile = (req, res) => {
-  const { token } = req.cookies;
-  if (token) {
-    jwt.verify(token, process.env.JWT_SECRET, {}, (err, user) => {
-      if (err) throw err;
-      return res.json(user);
-    });
-  } else {
-    return res.json(null).end();
+  //   const { token } = req.cookies;
+  //   if (token) {
+  //     jwt.verify(token, process.env.JWT_SECRET, {}, (err, user) => {
+  //       if (err) throw err;
+  //       return res.json(user);
+  //     });
+  //   } else {
+  //     return res.json(null).end();
+  //   }
+  if (!req.user) {
+    return res.json({ error: "User not found" });
   }
+  res.status(200).json({
+    message: "User authenticated successfully",
+    user: req.user,
+  });
 };
 
 const logout = (req, res) => {
