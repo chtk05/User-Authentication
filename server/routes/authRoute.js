@@ -10,7 +10,7 @@ const {
 } = require("../controllers/authController");
 
 router.post("/register", registerUser);
-router.get("/logout", logout);
+router.post("/logout", logout);
 router.get("/profile", verifyToken, getProfile);
 router.post("/register", registerUser);
 router.post("/login", loginUser);
