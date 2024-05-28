@@ -6,7 +6,7 @@
     * React.js Vite 
     * TailwindCSS
   <h4>Backend</h2>
-    * Node
+    '*' Node
     * Express
     * MongoDB
   <h4>Testing Tools</h2>
