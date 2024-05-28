@@ -4,5 +4,5 @@ COPY package*.json ./
 COPY package-lock.json ./
 RUN npm install
 COPY . .
-EXPOSE 5173
+EXPOSE 5176
 CMD ["npm", "run", "dev"]

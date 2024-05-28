@@ -8,7 +8,7 @@ services:
       - ./client:/myapp
       - /myapp/node_modules
     ports:
-      - 5173:5173
+      - 5176:5176
     depends_on:
       - backend
     restart: always
@@ -20,8 +20,8 @@ services:
     volumes:
       - ./server:/myapp
       - /myapp/node_modules
-    expose:
-      - 8080
+    ports:
+      - 8080:8080
     environment:
       - MONGODB_URL=${MONGODB_URL}
     restart: always

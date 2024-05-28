@@ -44,7 +44,7 @@ const Register = () => {
       <div className="flex flex-col ml-10 mt-16">
         <img src="signin-image.jpg" alt="study" />
         <Link
-          to="/register"
+          to="/login"
           className="text-center text-gray-600 underline cursor-pointer hover:text-[#1363DF] mt-4"
         >
           I am already member
