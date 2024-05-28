@@ -13,13 +13,23 @@ const registerUser = async (req, res) => {
     const existEmail = await User.findOne({ email });
     if (existEmail) return res.json({ error: "This email already registred" });
     const hashedPassword = await hashPassword(password);
-    const user = await User.create({
+    const userCreate = await User.create({
       name,
       email,
       password: hashedPassword,
       quote,
     });
-    return res.json(user).end();
+
+    console.log("User created:", userCreate);
+    return res
+      .status(200)
+      .json({
+        name: userCreate.name,
+        email: userCreate.email,
+        password: userCreate.password,
+        quote: userCreate.quote,
+      })
+      .end();
   } catch (err) {
     console.log(err);
   }
@@ -28,24 +38,24 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
-    console.log(req.body);
-    const user = await User.findOne({ email: email });
-    console.log(`user`, user);
+    const user = await User.findOne({ email });
     if (!user) {
-      return res.status(401).json({
-        error: "No user found",
-      });
+      return res.status(401).json({ error: "No user found" });
     }
 
     const matchPassword = await comparePassword(password, user.password);
     if (matchPassword) {
       jwt.sign(
-        { email: user.email, name: user.firstName, lastName: user.lastName },
+        { email: user.email, name: user.name },
         process.env.JWT_SECRET,
         {},
         (err, token) => {
           if (err) throw err;
-          res.cookie("token", token).json(user);
+          res.cookie("token", token).status(200).json({
+            email: user.email,
+            name: user.name,
+            quote: user.quote,
+          });
         }
       );
     }
