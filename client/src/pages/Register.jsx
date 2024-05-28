@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 import useRegisterUser from "../hook/useRegisterUser";
 import toast, { Toaster } from "react-hot-toast";
@@ -15,7 +16,11 @@ const Register = () => {
     quote: "",
   });
   const [isLoading, setIsLoading] = useState(false);
-
+  const isFormIncomplete = (userData) => {
+    return (
+      !userData.name || !userData.email || !userData.password || !userData.quote
+    );
+  };
   const handleRegister = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -140,7 +145,7 @@ const Register = () => {
             <button
               className="mb-4 md:mb-5 bg-[#1363DF] hover:bg-[#DFF6FF] hover:text-[#1363DF] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="submit"
-              disabled={isLoading}
+              disabled={isFormIncomplete(userData) || isLoading}
             >
               {isLoading ? "Sybmitting..." : "Submit"}
             </button>

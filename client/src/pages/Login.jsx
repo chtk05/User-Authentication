@@ -1,3 +1,4 @@
+import React from "react";
 import { useAuth } from "../provider/AuthProvider";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -100,7 +101,7 @@ const Login = () => {
             <button
               className="mb-4 md:mb-5 bg-[#1363DF] hover:bg-[#DFF6FF] hover:text-[#1363DF] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="submit"
-              disabled={isLoading}
+              disabled={!data.email || isLoading}
             >
               {isLoading ? "Logged in..." : "Log In"}
             </button>
