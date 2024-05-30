@@ -20,7 +20,10 @@ const AuthProvider = ({ children }) => {
     const loginBody = { email, password };
     console.log(loginBody);
     try {
-      const res = await axios.post("http://localhost:8080/login", loginBody);
+      const res = await axios.post(
+        `${process.env.BACKEND_URL}/login`,
+        loginBody
+      );
 
       if (res.status === 200) {
         console.log(res.data);
