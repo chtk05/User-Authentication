@@ -2,7 +2,10 @@ import axios from "axios";
 import toast from "react-hot-toast";
 const useRegisterUser = async (userData) => {
   try {
-    const res = await axios.post("http://localhost:8080/register", userData);
+    const res = await axios.post(
+      `${process.env.BACKEND_URL}/register`,
+      userData
+    );
     if (res.status === 200) {
       console.log(res.data);
       toast.success(`Registered Successfully`);
